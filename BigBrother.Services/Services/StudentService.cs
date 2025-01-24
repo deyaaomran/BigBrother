@@ -40,7 +40,7 @@ namespace BigBrother.Services.Services
             await _context.SaveChangesAsync();
         }
 
-        public ICollection<Student> GetAbsentees(int courseId)
+       public ICollection<Student> GetAbsentees(int courseId)
         {
             
                 

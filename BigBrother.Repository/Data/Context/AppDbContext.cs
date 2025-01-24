@@ -25,7 +25,12 @@ namespace BigBrother.Repository.Data.Context
             modelBuilder.Entity<StudentCourses>()
                 .HasKey(sc => new { sc.StudentId, sc.CourseId }); // Composite Key
 
-            
+            modelBuilder.Entity<Attendance>()
+            .HasOne(a => a.studentCourses)           
+            .WithMany(s => s.attendances)
+            .HasForeignKey(sc => new { sc.StudentId, sc.CourseId });
+
+
         }
 
         public DbSet<Student> students { get; set; }
