@@ -9,7 +9,7 @@ namespace BigBrother.Core.Entities
     public class Course : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Student> Students { get; set; }
+        public ICollection<Student> students { get; set; }
         public int InstructorId { get; set; }
         public Instructor Instructor { get; set; }
     }

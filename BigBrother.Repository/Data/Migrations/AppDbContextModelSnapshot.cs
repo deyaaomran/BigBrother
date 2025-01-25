@@ -49,7 +49,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("asisstants");
+                    b.ToTable("asisstants", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.Attendance", b =>
@@ -84,7 +84,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasIndex("StudentId", "CourseId");
 
-                    b.ToTable("attendances");
+                    b.ToTable("attendances", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.Course", b =>
@@ -106,7 +106,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("courses");
+                    b.ToTable("courses", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.Instructor", b =>
@@ -127,7 +127,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("instructors");
+                    b.ToTable("instructors", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.Student", b =>
@@ -151,7 +151,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("students");
+                    b.ToTable("students", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.StudentCourses", b =>
@@ -166,7 +166,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("studentCourses");
+                    b.ToTable("studentCourses", (string)null);
                 });
 
             modelBuilder.Entity("CourseStudent", b =>
@@ -181,7 +181,7 @@ namespace BigBrother.Repository.Data.Migrations
 
                     b.HasIndex("StudentsId");
 
-                    b.ToTable("CourseStudent");
+                    b.ToTable("CourseStudent", (string)null);
                 });
 
             modelBuilder.Entity("BigBrother.Core.Entities.Asisstant", b =>
