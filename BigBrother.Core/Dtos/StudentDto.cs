@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigBrother.Core.Entities
+namespace BigBrother.Core.Dtos
 {
-    public class Student : BaseEntity
+    public class StudentDto
     {
+        public int Id { get; set; }
         public long PhoneNumber { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public ICollection<Attendance> attendances { get; set; }
-        public ICollection<Course> courses { get; set; }
     }
 }

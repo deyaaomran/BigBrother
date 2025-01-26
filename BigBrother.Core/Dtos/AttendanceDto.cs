@@ -11,7 +11,7 @@ namespace BigBrother.Core.Dtos
        
         public DateTime Date { get; set; }
         
-        public TimeSpan Time { get; set; } 
+        public TimeSpan Time { get; set; } = new TimeSpan (0,0,0);
 
         public string StudentName { get; set; }
         public int StudentId { get; set; }

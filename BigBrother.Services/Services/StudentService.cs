@@ -1,7 +1,10 @@
-﻿using BigBrother.Core.Entities;
+﻿using AutoMapper;
+using BigBrother.Core.Dtos;
+using BigBrother.Core.Entities;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
 using ClosedXML.Excel;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,29 +16,34 @@ namespace BigBrother.Services.Services
     public class StudentService : IStudentService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public StudentService( AppDbContext context)
+        public StudentService( AppDbContext context , IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task UploadStudentsAsync(Stream excelFile)
         {
-            using var workbook = new XLWorkbook(excelFile);
-            var worksheet = workbook.Worksheet(1);
-            var rows = worksheet.RowsUsed();
+            // استخدم مكتبة EPPlus لمعالجة الملف
 
-            foreach (var row in rows.Skip(1))
-            { // Skip header
-                var student = new Student
+            var package = new ExcelPackage(excelFile);
+            var worksheet = package.Workbook.Worksheets[0];
+            int rowCount = worksheet.Dimension.Rows;
+
+            // اقرأ البيانات من الصفوف
+            for (int row = 2; row <= rowCount; row++) // افترض أن الصف الأول هو العناوين
+            {
+                var std = new StudentDto()
                 {
-                    Name = row.Cell(1).GetValue<string>(),
-                    Email = row.Cell(2).GetValue<string>(),
-                    PhoneNumber = row.Cell(3).GetValue<int>()
-                    //courseId = row.Cell(4).GetValue<int>()
+                    Name = worksheet.Cells[row, 1].GetValue<string>(),
+                    Email = worksheet.Cells[row, 2].GetValue<string>(),
+                    PhoneNumber = worksheet.Cells[row, 3].GetValue<long>(),
                 };
+                var student = _mapper.Map<Student>(std);
+                _context.students.Add(student);
 
-                 _context.students.Add(student);
             }
             await _context.SaveChangesAsync();
         }

@@ -64,9 +64,10 @@ namespace BigBrother.Services.Services
                     StudentName = worksheet.Cells[row, 2].GetValue<string>(),
                     CourseId = worksheet.Cells[row, 3].GetValue<int>(),
                     Date = worksheet.Cells[row, 4].GetValue<DateTime>().Date,
-                    Time =TimeSpan.Zero,
+                    Time =  worksheet.Cells[row,5].GetValue<TimeSpan>(),
                     AsisstantId = worksheet.Cells[row, 6].GetValue<int>()
                 };
+                attend.Time = new TimeSpan(0, 0, 0);
                 var attendance = _mapper.Map<Attendance>(attend);
                 _context.attendances.Add(attendance);
                
