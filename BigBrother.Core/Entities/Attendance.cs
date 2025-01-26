@@ -10,7 +10,7 @@ namespace BigBrother.Core.Entities
     {
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; } 
-        public bool IsPresent { get; set; }
+        public bool IsPresent { get; set; } = true;
         /*--------------------------------*/
 
 

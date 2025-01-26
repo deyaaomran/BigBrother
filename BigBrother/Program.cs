@@ -1,4 +1,6 @@
 
+using AutoMapper;
+using BigBrother.Core.Mapping.Attendances;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
 using BigBrother.Services.Services;
@@ -13,6 +15,7 @@ namespace BigBrother.APIs
     {
         public static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("EPPlusLicenseContext", "NonCommercial");
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -23,8 +26,10 @@ namespace BigBrother.APIs
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IStudentService, StudentService>();
-            builder.Services.AddScoped<IAssistantService, AssistantService>();
+            builder.Services.AddScoped<IAsisstantService, AsisstantService>();
+            builder.Services.AddAutoMapper(M => M.AddProfile(new AttendaceProfile()));
             builder.Services.AddEndpointsApiExplorer();
+            
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Attendance System API", Version = "v1" });

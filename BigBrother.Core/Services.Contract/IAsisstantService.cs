@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace BigBrother.Core.Services.Contract
 {
-    public interface IAssistantService
+    public interface IAsisstantService
     {
-        Task AddAssistantAsync(Asisstant assistant);
-        Task ApproveAssistantAsync(int assistantId);
+        Task AddAsisstantAsync(Asisstant asisstant);
+        Task ApproveAsisstantAsync(int asisstantId);
+        Task SetAttendanceFile(Stream excelFile);
     }
 }
