@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using BigBrother.Core.Mapping.Attendances;
+using BigBrother.Core.Mapping.Courses;
 using BigBrother.Core.Mapping.Students;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
@@ -30,6 +31,7 @@ namespace BigBrother.APIs
             builder.Services.AddScoped<IAsisstantService, AsisstantService>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new AttendaceProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new StudentProfile()));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new CourseProfile()));
             builder.Services.AddEndpointsApiExplorer();
             
             builder.Services.AddSwaggerGen(c =>

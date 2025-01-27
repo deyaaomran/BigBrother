@@ -36,5 +36,6 @@ namespace BigBrother.APIs.Controllers
             var student = await _studentService.GetStudentAsync(StdId);
             return Ok(student);
         }
+
     }
 }

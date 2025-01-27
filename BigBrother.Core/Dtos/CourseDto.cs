@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigBrother.Core.Entities
+namespace BigBrother.Core.Dtos
 {
-    public class Course : BaseEntity
+    public class CourseDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartFrom { get; set; } 
+        public TimeSpan StartFrom { get; set; }
         public TimeSpan EndIn { get; set; }
         public DayOfWeek DayOfCourse { get; set; }
-        public ICollection<Student> students { get; set; }
         public int InstructorId { get; set; }
-        public Instructor Instructor { get; set; }
     }
 }
