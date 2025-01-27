@@ -4,6 +4,7 @@ using BigBrother.Core.Entities;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
 using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -48,19 +49,19 @@ namespace BigBrother.Services.Services
             await _context.SaveChangesAsync();
         }
 
-       public ICollection<Student> GetAbsentees(int courseId)
-        {
-            
-                
-             var std = _context.studentCourses
-            .Where(s => s.CourseId == courseId && !_context.attendances.Any(a => a.StudentId == s.StudentId))
-            .Select(s => s.StudentId);
 
-             return  _context.students
-                             .Where(s => std.Contains(s.Id))
-                             .ToList();
+        public async Task<List<StudentDto>> GetStudentsAsync()
+        {
+            var std = await _context.students.ToListAsync();
+            var students = _mapper.Map<List<StudentDto>>(std);
+            return students;
         }
 
-       
+        public async Task<StudentDto> GetStudentAsync(int Studentid)
+        {
+            var std = await _context.students.Where(s => s.Id == Studentid).FirstAsync();
+            var student = _mapper.Map<StudentDto>(std);
+            return student;
+        }
     }
 }

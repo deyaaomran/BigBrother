@@ -24,11 +24,17 @@ namespace BigBrother.APIs.Controllers
             return Ok("Students uploaded successfully.");
         }
 
-        [HttpGet("absentees")]
-        public IActionResult GetAbsentees(int courseId)
+        [HttpGet("getallstudents")]
+        public async Task<IActionResult> GetAllStudents()
         {
-            var absentees = _studentService.GetAbsentees(courseId);
-            return Ok(absentees);
+            var students = await _studentService.GetStudentsAsync();
+            return Ok(students);
+        }
+        [HttpGet("getstudentbyid")]
+        public async Task<IActionResult> GetStudentById(int StdId)
+        {
+            var student = await _studentService.GetStudentAsync(StdId);
+            return Ok(student);
         }
     }
 }
