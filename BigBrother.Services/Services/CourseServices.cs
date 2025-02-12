@@ -4,6 +4,7 @@ using BigBrother.Core.Entities;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,12 @@ namespace BigBrother.Services.Services
             await _context.AddAsync(cour);
             await _context.SaveChangesAsync();  
         }
-        
+
+        public async Task<List<CourseDto>> GetCourseAsync()
+        {
+            var course = await _context.courses.ToListAsync();
+            return  _mapper.Map<List<CourseDto>>(course);
+
+        }
     }
 }

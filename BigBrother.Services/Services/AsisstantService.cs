@@ -13,6 +13,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BigBrother.Services.Services
 {
@@ -28,11 +29,24 @@ namespace BigBrother.Services.Services
             _mapper = mapper;
             
         }
-        public async Task AddAsisstantAsync(Asisstant asisstant)
+        public async Task AddAsisstantAsync(int StudentId)
         {
-            asisstant.Status = "Pending";
-            _context.asisstants.Add(asisstant);
-            await _context.SaveChangesAsync();
+            var Asisst = _context.students.Where(s => s.Id == StudentId);
+            if (Asisst.Any())
+            {
+               var Asisstant = _mapper.Map<Asisstant>(Asisst);
+                _context.asisstants.Add(Asisstant);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return ;
+            }
+
+
+            //asisstant.Status = "Pending";
+            //_context.asisstants.Add(asisstant);
+            //await _context.SaveChangesAsync();
         }
 
         public async Task ApproveAsisstantAsync(int asisstantId)
@@ -40,7 +54,7 @@ namespace BigBrother.Services.Services
             var assistant = await _context.asisstants.FindAsync(asisstantId);
             if (assistant == null) throw new Exception("Assistant not found.");
 
-            assistant.Status = "Approved";
+            assistant.Status = true;
             await _context.SaveChangesAsync();
         }
 

@@ -9,7 +9,7 @@ namespace BigBrother.Core.Services.Contract
 {
     public interface IAsisstantService
     {
-        Task AddAsisstantAsync(Asisstant asisstant);
+        Task AddAsisstantAsync(int StudentId);
         Task ApproveAsisstantAsync(int asisstantId);
         Task SetAttendanceFile(Stream excelFile);
     }

@@ -14,6 +14,7 @@ namespace BigBrother.Core.Mapping.Students
         public StudentProfile()
         {
             CreateMap<Student , StudentDto>().ReverseMap();
+            CreateMap<Student , Asisstant>().ReverseMap();
         }
     }
 }

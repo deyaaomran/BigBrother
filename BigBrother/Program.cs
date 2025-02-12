@@ -29,6 +29,8 @@ namespace BigBrother.APIs
             });
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IAsisstantService, AsisstantService>();
+            builder.Services.AddScoped<ICourseServices, CourseServices>();
+            builder.Services.AddScoped<IAttendanceServices, AttendaceServices>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new AttendaceProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new StudentProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new CourseProfile()));
@@ -40,8 +42,21 @@ namespace BigBrother.APIs
 
                
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()  // ?????? ????? ??? Domains
+                              .AllowAnyMethod()  // ?????? ????? ??? Methods (GET, POST, PUT, DELETE, ...)
+                              .AllowAnyHeader(); // ?????? ????? ??? Headers
+                    });
+            });
+
 
             var app = builder.Build();
+            app.UseCors("AllowAll");
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

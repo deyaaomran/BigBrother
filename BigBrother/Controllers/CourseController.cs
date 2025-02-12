@@ -19,5 +19,11 @@ namespace BigBrother.APIs.Controllers
             await _courseServices.AddCourseAsync(course);
             return Ok();
         }
+        [HttpGet("getcourse")]
+        public async Task<IActionResult> GetCourses()
+        {
+            var courses = await _courseServices.GetCourseAsync();
+            return Ok(courses);
+        }
     }
 }

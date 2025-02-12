@@ -9,8 +9,10 @@ namespace BigBrother.Core.Entities
     public class Asisstant : BaseEntity
     {
         public string Name { get; set; }
+        public long PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Status { get; set; }
+        public bool Status { get; set; } = false;
+        public string Code { get; set; }
         public Course course { get; set; }
         public int CourseId { get; set; }
         public ICollection<Attendance> attendances { get; set; }
