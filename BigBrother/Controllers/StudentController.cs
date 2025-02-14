@@ -1,4 +1,6 @@
-﻿using BigBrother.Core.Services.Contract;
+﻿using BigBrother.Core.Dtos;
+using BigBrother.Core.Services.Contract;
+using BigBrother.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BigBrother.APIs.Controllers
@@ -35,6 +37,19 @@ namespace BigBrother.APIs.Controllers
         {
             var student = await _studentService.GetStudentAsync(StdId);
             return Ok(student);
+        }
+        [HttpPost("AddStudent")]
+        public async Task<IActionResult> AddStudent(StudentDto student)
+        {
+            await _studentService.AddStudentAsync(student);
+            return Ok("Student added Sucssefuly");
+
+        }
+        [HttpGet("ByCourseId")]
+        public async Task<IActionResult> StudentForCourse(int CourseId)
+        {
+            var students = await _studentService.GetStudentsOfCourseAsync(CourseId);
+            return Ok(students);
         }
 
     }

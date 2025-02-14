@@ -12,6 +12,7 @@ namespace BigBrother.APIs.Controllers
         {
             _attendanceServices = attendanceServices;
         }
+
         [HttpGet("getallattendace")]
         public async Task<IActionResult> GetAllAttendance()
         {
@@ -36,6 +37,18 @@ namespace BigBrother.APIs.Controllers
                 return StatusCode(500, "Error saving student attendance.");
 
             return Ok(new { message = "Student attendance recorded successfully!", attendance });
+        }
+        [HttpGet("forstudent")]
+        public async Task<IActionResult> AttendaceForStudent(int studentId)
+        {
+            var Attendace = await _attendanceServices.GetAttentaceForStudentAsync(studentId);
+            return Ok(Attendace);
+        }
+        [HttpGet("forcourse")]
+        public async Task<IActionResult> AttendaceForCourse(int courseId)
+        {
+            var Attendace = await _attendanceServices.GetAttentaceForCourseAsync(courseId);
+            return Ok(Attendace);
         }
     }
 }

@@ -46,6 +46,20 @@ namespace BigBrother.Services.Services
             return attendace;
         }
 
+        public async Task<List<AttendanceDto>> GetAttentaceForCourseAsync(int CourseId)
+        {
+            var att = await _context.attendances.Where(s => s.CourseId == CourseId).ToListAsync();
+            var attendace = _mapper.Map<List<AttendanceDto>>(att);
+            return attendace;
+        }
+
+        public async Task<List<AttendanceDto>> GetAttentaceForStudentAsync(int StudentId)
+        {
+            var att = await _context.attendances.Where(s => s.StudentId == StudentId).ToListAsync();
+            var attendace = _mapper.Map<List<AttendanceDto>>(att);
+            return attendace;
+        }
+
         public async Task<bool> RegisterAttendanceAsync(AttendanceDto attend)
         {
 
@@ -66,5 +80,6 @@ namespace BigBrother.Services.Services
             if (result == 0) return false;
             else return true;           
         }
+
     }
 }

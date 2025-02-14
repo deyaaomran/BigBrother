@@ -12,21 +12,11 @@ namespace BigBrother.APIs.Controllers
         {
             _asisstantService = asisstantService;
         }
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadAttendance(IFormFile file)
+        [HttpPost("AddAsisstant")]
+        public async Task<IActionResult> AddAsisstant(int studentId , int CourseId)
         {
-            if (file == null || file.Length == 0) return BadRequest("Please upload a valid file.");
-
-            // التحقق من نوع الملف (Excel)
-            if (file.ContentType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
-                file.ContentType != "application/vnd.ms-excel")
-            {
-                return BadRequest("Invalid file type. Please upload an Excel file.");
-            }
-            using var stream = file.OpenReadStream();
-            await _asisstantService.SetAttendanceFile(stream);
-
-            return Ok("Attendance uploaded successfully.");
+             await _asisstantService.AddAsisstantAsync(studentId, CourseId);
+            return Ok("Asisstant added successfully.");            
         }
 
     }

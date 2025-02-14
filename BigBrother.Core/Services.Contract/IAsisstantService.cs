@@ -9,8 +9,10 @@ namespace BigBrother.Core.Services.Contract
 {
     public interface IAsisstantService
     {
-        Task AddAsisstantAsync(int StudentId);
+        Task AddAsisstantAsync(int StudentId , int CourseId);
         Task ApproveAsisstantAsync(int asisstantId);
-        Task SetAttendanceFile(Stream excelFile);
+        Task SendCode(int asisstantId , string code);
+        
+        //Task SetAttendanceFile(Stream excelFile);
     }
 }

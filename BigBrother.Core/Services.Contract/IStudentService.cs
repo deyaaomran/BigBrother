@@ -11,8 +11,9 @@ namespace BigBrother.Core.Services.Contract
     public interface IStudentService
     {
         Task UploadStudentsAsync(Stream excelFile);
-
+        Task AddStudentAsync(StudentDto student);
         Task<List<StudentDto>>  GetStudentsAsync();
         Task<StudentDto> GetStudentAsync (int Studentid);
+        Task<List<StudentDto>> GetStudentsOfCourseAsync(int CourseId);
     }
 }

@@ -12,6 +12,8 @@ namespace BigBrother.Core.Services.Contract
         Task<List<AttendanceDto>> GetAllAttendanceAsync();
         Task<AttendanceDto> GeAttendanceByIdAsync(int id);
         Task <bool> RegisterAttendanceAsync(AttendanceDto attend);
+        Task<List<AttendanceDto>> GetAttentaceForCourseAsync(int CourseId);
+        Task<List<AttendanceDto>> GetAttentaceForStudentAsync(int StudentId);
 
 
     }

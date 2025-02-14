@@ -3,7 +3,6 @@ using BigBrother.Core.Dtos;
 using BigBrother.Core.Entities;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
-using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System;
@@ -14,15 +13,28 @@ using System.Threading.Tasks;
 
 namespace BigBrother.Services.Services
 {
-    public class StudentService : IStudentService
+    public class InstructorServices : IInstructorServices
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-        public StudentService( AppDbContext context , IMapper mapper)
+        public InstructorServices(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public async Task AddCourseAsync(CourseDto course)
+        {
+            var cour = _mapper.Map<Course>(course);
+            await _context.AddAsync(cour);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<CourseDto>> GetCourseAsync()
+        {
+            var course = await _context.courses.ToListAsync();
+            return _mapper.Map<List<CourseDto>>(course);
         }
 
         public async Task UploadStudentsAsync(Stream excelFile)
@@ -63,24 +75,9 @@ namespace BigBrother.Services.Services
             var student = _mapper.Map<StudentDto>(std);
             return student;
         }
-        public async Task AddStudentAsync(StudentDto student)
-        {
-            var std = _mapper.Map<Student>(student);
-            await _context.AddAsync(student);
-            await _context.SaveChangesAsync();
-        }
-        public async Task<List<StudentDto>> GetStudentsOfCourseAsync(int CourseId)
-        {
-            var std = await _context.studentCourses.Where(s => s.CourseId == CourseId)
-                .Join(
-                        _context.students,
-                        s => s.StudentId,
-                        st => st.Id,
-                        (s, st) => st
-                     ).ToListAsync();
-            var students = _mapper.Map<List<StudentDto>>(std);
-            return students;
 
-        }
+       
+
+        
     }
 }
