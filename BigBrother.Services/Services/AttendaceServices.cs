@@ -60,6 +60,21 @@ namespace BigBrother.Services.Services
             return attendace;
         }
 
+        public async Task<List<StudentCourseDto>> GetCountOfCourseAttendanceAsync(int CourseId)
+        {
+            var att = await _context.studentCourses.Where(s => s.CourseId == CourseId).ToListAsync();
+            int count = 0;
+            foreach (var std in att)
+            {
+                count = await _context.attendances.Where(s => s.StudentId == std.StudentId).Where(c => c.CourseId == std.CourseId).CountAsync();
+                std.CourseAttendace = count;
+            }
+
+            var stdcourse = _mapper.Map<List<StudentCourseDto>>(att);
+            return stdcourse;
+
+        }
+
         public async Task<bool> RegisterAttendanceAsync(AttendanceDto attend)
         {
 

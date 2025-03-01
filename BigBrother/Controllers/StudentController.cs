@@ -1,4 +1,5 @@
-﻿using BigBrother.Core.Dtos;
+﻿using BigBrother.APIs.Attributes;
+using BigBrother.Core.Dtos;
 using BigBrother.Core.Services.Contract;
 using BigBrother.Services.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace BigBrother.APIs.Controllers
         }
 
         [HttpGet("getallstudents")]
+        [Cached(30)]
         public async Task<IActionResult> GetAllStudents()
         {
             var students = await _studentService.GetStudentsAsync();

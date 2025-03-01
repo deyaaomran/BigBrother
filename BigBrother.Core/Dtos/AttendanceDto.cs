@@ -17,5 +17,6 @@ namespace BigBrother.Core.Dtos
         public int StudentId { get; set; }
         public int? CourseId { get; set; }
         public int? AsisstantId { get; set; }
+        public int Counter { get; set; }
     }
 }

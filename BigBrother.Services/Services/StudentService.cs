@@ -38,15 +38,27 @@ namespace BigBrother.Services.Services
             {
                 var std = new StudentDto()
                 {
-                    Name = worksheet.Cells[row, 1].GetValue<string>(),
-                    Email = worksheet.Cells[row, 2].GetValue<string>(),
+                    Id = worksheet.Cells[row, 1].GetValue<int>(),
+                    Name = worksheet.Cells[row, 2].GetValue<string>(),
                     PhoneNumber = worksheet.Cells[row, 3].GetValue<long>(),
+                    Email = worksheet.Cells[row, 4].GetValue<string>()
+                    
                 };
                 var student = _mapper.Map<Student>(std);
-                _context.students.Add(student);
-
+                var exsist =  await _context.students.FindAsync(student.Id);
+                if (exsist != null)
+                {
+                    // 🔄 الطالب موجود، يمكنك تحديث بياناته أو تخطيه
+                    exsist.Name = student.Name;
+                    _context.students.Update(exsist);
+                }
+                else
+                {
+                    _context.students.Add(student);
+                }
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+            
         }
 
 
