@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BigBrother.Core.Services.Contract
 {
     public interface IAttendanceServices
     {
         Task<List<AttendanceDto>> GetAllAttendanceAsync();
-        Task<AttendanceDto> GeAttendanceByIdAsync(int id);
+        Task<ActionResult<AttendanceDto>> GeAttendanceByIdAsync(int id);
         Task <bool> RegisterAttendanceAsync(AttendanceDto attend);
-        Task<List<AttendanceDto>> GetAttentaceForCourseAsync(int CourseId);
+        Task<ActionResult<List<AttendanceDto>>> GetAttentaceForCourseAsync(int CourseId);
         Task<List<StudentCourseDto>> GetCountOfCourseAttendanceAsync(int CourseId);
-        Task<List<AttendanceDto>> GetAttentaceForStudentAsync(int StudentId);
+        Task<ActionResult<List<AttendanceDto>>> GetAttentaceForStudentAsync(int StudentId);
 
 
     }

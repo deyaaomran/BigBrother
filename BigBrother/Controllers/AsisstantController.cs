@@ -12,7 +12,7 @@ namespace BigBrother.APIs.Controllers
         {
             _asisstantService = asisstantService;
         }
-        [HttpPost("AddAsisstant")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddAsisstant(int studentId , int CourseId)
         {
              await _asisstantService.AddAsisstantAsync(studentId, CourseId);

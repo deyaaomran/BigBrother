@@ -38,7 +38,7 @@ namespace BigBrother.APIs.Controllers
             if (user is null) return BadRequest("Invalid Registeration !!");
             return Ok(user);
         }
-        [HttpGet("GerCurrentUser")]
+        [HttpGet("current-user")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);

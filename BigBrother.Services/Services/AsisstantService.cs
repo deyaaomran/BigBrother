@@ -36,7 +36,7 @@ namespace BigBrother.Services.Services
         {
             var Asisst =await _context.students.Where(s => s.Id == StudentId).FirstOrDefaultAsync();
             if ( Asisst == null ) throw new Exception("Student not found.");
-            var Checkasisst =await _context.asisstants.Where(s => s.Email == Asisst.Email).FirstOrDefaultAsync();
+            var Checkasisst =await _context.asisstants.Where(s => s.Id == Asisst.Id).FirstOrDefaultAsync();
             if (Checkasisst is not null) throw new Exception("Asisstant Allready Founded");
             else 
             {

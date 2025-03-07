@@ -1,5 +1,6 @@
 ﻿using BigBrother.Core.Dtos;
 using BigBrother.Core.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ namespace BigBrother.Core.Services.Contract
 {
     public interface IStudentService
     {
-        Task UploadStudentsAsync(Stream excelFile);
-        Task AddStudentAsync(StudentDto student);
-        Task<List<StudentDto>>  GetStudentsAsync();
-        Task<StudentDto> GetStudentAsync (int Studentid);
-        Task<List<StudentDto>> GetStudentsOfCourseAsync(int CourseId);
+        Task UploadStudentsAsync(Stream excelFile , int CourseId);
+        Task AddStudentAsync(StudentDto student , int courseid);
+        //Task<List<StudentDto>>  GetStudentsAsync(int courseid);
+        Task<StudentDto> GetStudentByIdAsync (int Studentid);
+        Task<ActionResult<List<StudentDto>>> GetStudentsOfCourseAsync(int CourseId);
+        Task<List<StudentDto>> GetStudentsOfCourseQRAsync(int courseId);
     }
 }

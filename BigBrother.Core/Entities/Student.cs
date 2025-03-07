@@ -12,10 +12,12 @@ namespace BigBrother.Core.Entities
     {
         
         public int Id { get; set; }
-        public int Code { get; set; }
-        public long PhoneNumber { get; set; }
+        public int? Code { get; set; }
+        //public long? PhoneNumber { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
+        //public string Email { get; set; }
+        public string? Department { get; set; }
+        
         public ICollection<Attendance> attendances { get; set; }
         public ICollection<Course> courses { get; set; }
     }

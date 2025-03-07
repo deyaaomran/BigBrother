@@ -11,7 +11,7 @@ namespace BigBrother.Core.Services.Contract
     {
         Task AddCourseAsync(CourseDto course);
         Task<List<CourseDto>> GetCourseAsync();
-        Task UploadStudentsAsync(Stream excelFile);
+        
         Task<List<StudentDto>> GetStudentsAsync();
         Task<StudentDto> GetStudentAsync(int Studentid);
 

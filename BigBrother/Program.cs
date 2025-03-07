@@ -8,6 +8,7 @@ using BigBrother.Core.Services.Contract;
 using BigBrother.Repository.Data.Context;
 using BigBrother.Repository.Identity.Context;
 using BigBrother.Services.Chaches;
+using BigBrother.Services.QRService;
 using BigBrother.Services.Services;
 using BigBrother.Services.Token;
 using BigBrother.Services.Users;
@@ -72,6 +73,8 @@ namespace BigBrother.APIs
             builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IQRService, QRService>();
+            builder.Services.AddScoped<IInstructorServices, InstructorServices>();
             builder.Services.AddScoped<IAttendanceServices, AttendaceServices>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new AttendaceProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new StudentProfile()));

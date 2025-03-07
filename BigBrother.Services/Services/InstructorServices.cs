@@ -37,29 +37,7 @@ namespace BigBrother.Services.Services
             return _mapper.Map<List<CourseDto>>(course);
         }
 
-        public async Task UploadStudentsAsync(Stream excelFile)
-        {
-            // استخدم مكتبة EPPlus لمعالجة الملف
-
-            var package = new ExcelPackage(excelFile);
-            var worksheet = package.Workbook.Worksheets[0];
-            int rowCount = worksheet.Dimension.Rows;
-
-            // اقرأ البيانات من الصفوف
-            for (int row = 2; row <= rowCount; row++) // افترض أن الصف الأول هو العناوين
-            {
-                var std = new StudentDto()
-                {
-                    Name = worksheet.Cells[row, 1].GetValue<string>(),
-                    Email = worksheet.Cells[row, 2].GetValue<string>(),
-                    PhoneNumber = worksheet.Cells[row, 3].GetValue<long>(),
-                };
-                var student = _mapper.Map<Student>(std);
-                _context.students.Add(student);
-
-            }
-            await _context.SaveChangesAsync();
-        }
+       
 
 
         public async Task<List<StudentDto>> GetStudentsAsync()

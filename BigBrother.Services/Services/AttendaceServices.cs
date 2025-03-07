@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,15 +29,7 @@ namespace BigBrother.Services.Services
             _context = context;
             _mapper = mapper;
         }
-        public async Task<AttendanceDto> GeAttendanceByIdAsync(int id)
-        {
-            var attend =await _context.attendances.Where(s => s.Id == id).FirstOrDefaultAsync();
-             var attendace = _mapper.Map<AttendanceDto>(attend);
-            attendace.StudentName = _context.students.Where(s => s.Id == id).FirstOrDefault().Name;
-            return attendace;
-
-
-        }
+        
 
         public async Task<List<AttendanceDto>> GetAllAttendanceAsync()
         {
@@ -46,37 +39,88 @@ namespace BigBrother.Services.Services
             return attendace;
         }
 
-        public async Task<List<AttendanceDto>> GetAttentaceForCourseAsync(int CourseId)
+        public async Task<ActionResult<List<AttendanceDto>>> GetAttentaceForCourseAsync(int CourseId)
         {
-            var att = await _context.attendances.Where(s => s.CourseId == CourseId).ToListAsync();
-            var attendace = _mapper.Map<List<AttendanceDto>>(att);
-            return attendace;
-        }
-
-        public async Task<List<AttendanceDto>> GetAttentaceForStudentAsync(int StudentId)
-        {
-            var att = await _context.attendances.Where(s => s.StudentId == StudentId).ToListAsync();
-            var attendace = _mapper.Map<List<AttendanceDto>>(att);
-            return attendace;
-        }
-
-        public async Task<List<StudentCourseDto>> GetCountOfCourseAttendanceAsync(int CourseId)
-        {
-            var att = await _context.studentCourses.Where(s => s.CourseId == CourseId).ToListAsync();
-            int count = 0;
-            foreach (var std in att)
+            try
             {
-                count = await _context.attendances.Where(s => s.StudentId == std.StudentId).Where(c => c.CourseId == std.CourseId).CountAsync();
-                std.CourseAttendace = count;
+                if (CourseId <= 0)
+                {
+                    throw new ArgumentException("Invalid Course ID.");
+                }
+                var att = await _context.attendances.Where(s => s.CourseId == CourseId).ToListAsync();
+                var attendace = _mapper.Map<List<AttendanceDto>>(att);
+                return attendace;
+            }
+            catch (Exception ex)
+            {
+
+                return new ObjectResult("An error occurred while processing your request.")
+                {
+                    StatusCode = 500
+                };
+            }
+        }
+
+        public async Task<ActionResult<List<AttendanceDto>>> GetAttentaceForStudentAsync(int StudentId)
+        {
+            if (StudentId <= 0)
+            {
+                throw new ArgumentException("Invalid Course ID.");
+            }
+            try
+            {
+                var att = await _context.attendances.Where(s => s.StudentId == StudentId).ToListAsync();
+                var attendace = _mapper.Map<List<AttendanceDto>>(att);
+                return attendace;
+            }
+            catch (Exception)
+            {
+
+                return new ObjectResult("An error occurred while processing your request.")
+                {
+                    StatusCode = 500
+                };
+            }
+        }
+
+        public async Task<List<StudentCourseDto>> GetCountOfCourseAttendanceAsync(int courseId)
+        {
+            
+            if (courseId <= 0)
+            {
+                throw new ArgumentException("Invalid Course ID.");
             }
 
-            var stdcourse = _mapper.Map<List<StudentCourseDto>>(att);
-            return stdcourse;
+            var studentAttendanceCounts = await (
+                from sc in _context.studentCourses
+                where sc.CourseId == courseId
+                join a in _context.attendances
+                on new { sc.StudentId, sc.CourseId } equals new { StudentId = a.StudentId.Value, CourseId = a.CourseId.Value } into attendanceGroup
+                select new StudentCourseDto
+                {
+                    StudentName = _context.students.Where(s => s.Id == sc.StudentId).FirstOrDefault().Name,
+                    CourseName = _context.courses.Where(s => s.Id == sc.CourseId).FirstOrDefault().Name,
+                    CountofAttend = attendanceGroup.Count() 
+                }
+            ).ToListAsync();
 
+            return studentAttendanceCounts;
         }
 
         public async Task<bool> RegisterAttendanceAsync(AttendanceDto attend)
         {
+            
+            var existingAttendance = await _context.attendances
+                .FirstOrDefaultAsync(a => a.StudentId == attend.StudentId
+                                          && a.CourseId == attend.CourseId
+                                          && a.Date.Date == DateTime.Now.Date);
+
+            if (existingAttendance != null)
+            {
+                
+                return false;
+            }
+
 
             var studentAttendance = new AttendanceDto()
             {
@@ -86,15 +130,63 @@ namespace BigBrother.Services.Services
                 Time= new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0),
                 AsisstantId = 2,
                 CourseId = 1,
+                Counter =1,
                 
             };
 
             var att = _mapper.Map<Attendance>(studentAttendance);
             await _context.AddAsync(att);
             int result = await _context.SaveChangesAsync();
-            if (result == 0) return false;
-            else return true;           
+            return result > 0;           
         }
 
+        public async Task<ActionResult<AttendanceDto>> GeAttendanceByIdAsync(int id)
+        {
+            if (id <= 0)
+            {
+                return new BadRequestObjectResult("Invalid ID. ID must be greater than 0.");
+            }
+
+            try
+            {
+
+                var attend = await _context.attendances
+                    .Where(s => s.Id == id)
+                    .FirstOrDefaultAsync();
+
+
+                if (attend == null)
+                {
+                    return new NotFoundObjectResult($"Attendance with ID {id} not found.");
+                }
+
+
+                var attendanceDto = _mapper.Map<AttendanceDto>(attend);
+
+
+                var student = await _context.students
+                    .Where(s => s.Id == attendanceDto.StudentId)
+                    .FirstOrDefaultAsync();
+
+                if (student != null)
+                {
+                    attendanceDto.StudentName = student.Name;
+                }
+                else
+                {
+                    attendanceDto.StudentName = "Unknown";
+                }
+
+                return new OkObjectResult(attendanceDto);
+            }
+            catch (Exception ex)
+            {
+
+                return new ObjectResult("An error occurred while processing your request.")
+                {
+                    StatusCode = 500
+                };
+            }
+        }
     }
 }
