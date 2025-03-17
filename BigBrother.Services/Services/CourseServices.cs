@@ -31,9 +31,9 @@ namespace BigBrother.Services.Services
             await _context.SaveChangesAsync();  
         }
 
-        public async Task<List<CourseDto>> GetCourseAsync()
+        public async Task<List<CourseDto>> GetCourseAsync(int instructorid)
         {
-            var course = await _context.courses.ToListAsync();
+            var course = await _context.courses.Where(c => c.InstructorId == instructorid).ToListAsync();
             return  _mapper.Map<List<CourseDto>>(course);
 
         }

@@ -31,16 +31,19 @@ namespace BigBrother.Services.Users
             if (user is null) return null;
             var result =await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (!result.Succeeded) return null;
+             await _userManager.AddToRoleAsync(user,"Admin");
 
             return new UserDto()
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
                 Token = await _tokenService.CreateTokenAsync(user,_userManager)
+                
 
             };
 
         }
+       
 
         public async Task<UserDto> RegisterAsync(RegisterDto registerDto)
         {

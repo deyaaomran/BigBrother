@@ -10,7 +10,7 @@ namespace BigBrother.Core.Services.Contract
     public interface ICourseServices
     {
         Task AddCourseAsync(CourseDto course);
-        Task<List<CourseDto>> GetCourseAsync();
+        Task<List<CourseDto>> GetCourseAsync(int instructorid);
 
     }
 }

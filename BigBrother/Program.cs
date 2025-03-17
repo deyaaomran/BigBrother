@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using BigBrother.Core.Entities.Identity;
 using BigBrother.Core.Mapping.Attendances;
 using BigBrother.Core.Mapping.Courses;
@@ -14,20 +15,22 @@ using BigBrother.Services.Token;
 using BigBrother.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using Umbraco.Core.Models.Membership;
+using BigBrother.Core.Mapping.Asisstant;
 
 
 namespace BigBrother.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Environment.SetEnvironmentVariable("EPPlusLicenseContext", "NonCommercial");
             var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +70,10 @@ namespace BigBrother.APIs
             builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
                 ConnectionMultiplexer.Connect("localhost:6379,abortConnect=false,connectTimeout=10000,syncTimeout=10000"));
 
+
+         
+
+
             builder.Services.AddScoped<IStudentService, StudentService>();
             builder.Services.AddScoped<IAsisstantService, AsisstantService>();
             builder.Services.AddScoped<ICourseServices, CourseServices>();
@@ -74,11 +81,13 @@ namespace BigBrother.APIs
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IQRService, QRService>();
+            //builder.Services.AddScoped<IServiceProvider, ServiceProvider>();
             builder.Services.AddScoped<IInstructorServices, InstructorServices>();
             builder.Services.AddScoped<IAttendanceServices, AttendaceServices>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new AttendaceProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new StudentProfile()));
             builder.Services.AddAutoMapper(M => M.AddProfile(new CourseProfile()));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new AsisstantProfile()));
             builder.Services.AddEndpointsApiExplorer();
             
             builder.Services.AddSwaggerGen(c =>
@@ -101,6 +110,8 @@ namespace BigBrother.APIs
 
             var app = builder.Build();
             app.UseCors("AllowAll");
+
+            
 
 
             // Configure the HTTP request pipeline.

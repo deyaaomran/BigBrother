@@ -1,4 +1,6 @@
-﻿using BigBrother.Core.Services.Contract;
+﻿using BigBrother.Core.Dtos;
+using BigBrother.Core.Entities;
+using BigBrother.Core.Services.Contract;
 using BigBrother.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +15,16 @@ namespace BigBrother.APIs.Controllers
             _asisstantService = asisstantService;
         }
         [HttpPost("add")]
-        public async Task<IActionResult> AddAsisstant(int studentId , int CourseId)
+        public async Task<IActionResult> AddAsisstant(AsisstantAccountDto asisstant)
         {
-             await _asisstantService.AddAsisstantAsync(studentId, CourseId);
-            return Ok("Asisstant added successfully.");            
+            await _asisstantService.AddAsisstantAsync(asisstant);
+            return Ok("Asisstant added successfully.");
+        }
+        [HttpGet("asisstants-for-course{courseId}")]
+        public async Task<IActionResult> GetAsisstantsForCourse(int courseId)
+        {
+            var asisstants = await _asisstantService.GetAsisstantsForCourseAsync(courseId);
+            return Ok(asisstants);
         }
 
     }

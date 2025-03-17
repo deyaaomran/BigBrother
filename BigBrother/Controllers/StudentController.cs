@@ -71,7 +71,7 @@ namespace BigBrother.APIs.Controllers
             }
 
             
-            return Ok(result.Value);
+            return Ok(result.Result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace BigBrother.Core.Entities
         public TimeSpan EndIn { get; set; }
         public DayOfWeek DayOfCourse { get; set; }
         public ICollection<Student> students { get; set; }
+        public ICollection<Asisstant> asisstants { get; set; }
         public int InstructorId { get; set; }
         public Instructor Instructor { get; set; }
     }

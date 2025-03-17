@@ -31,12 +31,18 @@ namespace BigBrother.Repository.Data.Context
             .HasForeignKey(sc => new { sc.StudentId, sc.CourseId });
 
 
+            modelBuilder.Entity<AsisstantCourses>()
+                .HasKey(sc => new { sc.AsisstantId, sc.CourseId }); // Composite Key
+
+
         }
+       
 
         public DbSet<Student> students { get; set; }
         public DbSet<Attendance> attendances { get; set; }
         public DbSet<Course> courses { get; set; }
         public DbSet<StudentCourses> studentCourses { get; set; }
+        public DbSet<AsisstantCourses> asisstantCourses { get; set; }
         public DbSet<Instructor> instructors { get; set; }
         public DbSet<Asisstant> asisstants { get; set; }
 

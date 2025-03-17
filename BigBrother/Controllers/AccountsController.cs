@@ -15,19 +15,28 @@ namespace BigBrother.APIs.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly IAsisstantService _asisstantService;
 
         public AccountsController(
-            IUserService userService, UserManager<AppUser> userManager, ITokenService tokenService)
+            IUserService userService, UserManager<AppUser> userManager, ITokenService tokenService , IAsisstantService asisstantService)
         {
             _userService = userService;
             _userManager = userManager;
             _tokenService = tokenService;
+            _asisstantService = asisstantService;
         }
 
         [HttpPost("login")] // post : /api/Accounts/login
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
            var user = await _userService.LoginAsync(loginDto);
+            if (user is null) return Unauthorized();
+            return Ok(user);
+        }
+        [HttpPost("login-asisstant")] // post : /api/Accounts/login
+        public async Task<ActionResult<UserDto>> AsisstantLogin(AsisstantLoginDto loginDto)
+        {
+            var user = await _asisstantService.LoginAsisstantAsync(loginDto);
             if (user is null) return Unauthorized();
             return Ok(user);
         }

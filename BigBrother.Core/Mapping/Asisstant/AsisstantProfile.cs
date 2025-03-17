@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BigBrother.Core.Mapping.Students
+namespace BigBrother.Core.Mapping.Asisstant
 {
-    public class StudentProfile : Profile
+    public class AsisstantProfile : Profile
     {
-        public StudentProfile()
+        public AsisstantProfile()
         {
-            CreateMap<Student , StudentDto>().ReverseMap();
+            CreateMap<BigBrother.Core.Entities.Asisstant , AsisstantAccountDto>().ReverseMap();
             
         }
     }

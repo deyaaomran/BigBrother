@@ -128,10 +128,8 @@ namespace BigBrother.Services.Services
                 StudentName = attend.StudentName,
                 Date = DateTime.Now,
                 Time= new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, 0),
-                AsisstantId = 2,
-                CourseId = 1,
-                Counter =1,
-                
+                AsisstantId = attend.AsisstantId,
+                CourseId = attend.CourseId                
             };
 
             var att = _mapper.Map<Attendance>(studentAttendance);
