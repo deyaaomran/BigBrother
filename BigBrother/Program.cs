@@ -61,7 +61,7 @@ namespace BigBrother.APIs
             builder.Services.AddControllers();
             builder.Services.AddDbContext<AppDbContext>(option =>
             {
-                option.UseSqlServer(builder.Configuration.GetConnectionString("OfflineConnection"));
+                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddDbContext<AppIdentityDbContext>(option =>
             {
