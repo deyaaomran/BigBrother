@@ -65,7 +65,7 @@ namespace BigBrother.APIs
             });
             builder.Services.AddDbContext<AppIdentityDbContext>(option =>
             {
-                option.UseSqlServer(builder.Configuration.GetConnectionString("OfflineIdentityConnection"));
+                option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
             builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
                 ConnectionMultiplexer.Connect("localhost:6379,abortConnect=false,connectTimeout=10000,syncTimeout=10000"));
